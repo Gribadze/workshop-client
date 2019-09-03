@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import {fetchDataFromServer} from "../services/localService";
+import {fetchMessage} from "../services/localService";
 import {connect} from 'react-redux';
-import {updateMessage} from "../redux/reducers";
+import {MessageSelector, updateMessage} from "../redux/reducers/message.reducer";
 
 class AwesomeComp extends Component {
     componentDidMount() {
-        fetchDataFromServer()
+        fetchMessage()
             .then(({ message }) => {
                 this.props.method(message);
             });
@@ -24,7 +24,9 @@ class AwesomeComp extends Component {
 }
 
 const mapStateToProps = state => ({
-    msg: state.message,
+    // msg: state.message.message,
+    msg: MessageSelector.getMessage(state.message),
+    chCount: MessageSelector.getChangedCount(state.message),
 });
 
 const mapDispatchToProps = dispatch => ({
